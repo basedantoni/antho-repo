@@ -1,3 +1,25 @@
 packages:
-  - "apps/*"
-  - "packages/*"
+  - apps/*
+  - packages/*
+  - tooling/*
+catalog:
+  '@eslint/js': ^9.22.0
+  '@next/eslint-plugin-next': ^15.2.1
+  '@turbo/gen': ^2.4.4
+  '@types/node': ^22.13.9
+  '@types/react': 19.0.10
+  '@types/react-dom': 19.0.4
+  eslint: ^9.22.0
+  eslint-config-prettier: ^10.1.1
+  eslint-plugin-only-warn: ^1.1.0
+  eslint-plugin-react: ^7.37.4
+  eslint-plugin-react-hooks: ^5.2.0
+  eslint-plugin-turbo: ^2.4.4
+  globals: ^16.0.0
+  next: ^15.2.1
+  prettier: ^3.5.3
+  react: ^19.0.0
+  react-dom: ^19.0.0
+  turbo: ^2.4.4
+  typescript: ^5.8.2
+  typescript-eslint: ^8.26.0
