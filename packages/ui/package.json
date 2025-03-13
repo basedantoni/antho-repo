@@ -6,9 +6,11 @@
     "./*": "./src/*.tsx"
   },
   "scripts": {
-    "lint": "eslint . --max-warnings 0",
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
+    "lint": "eslint",
     "generate:component": "turbo gen react-component",
-    "check-types": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "ui:add": "pnpm dlx shadcn@latest add && prettier src --write --list-different"
   },
   "devDependencies": {
     "@antho/eslint-config": "workspace:*",
@@ -18,6 +20,7 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "eslint": "catalog:",
+    "prettier": "catalog:",
     "typescript": "catalog:"
   },
   "dependencies": {

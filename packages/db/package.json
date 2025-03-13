@@ -2,7 +2,9 @@
   "name": "@antho/db",
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "clean": "git clean -xdf node_modules dist",
+    "dev": "tsc --watch"
   },
   "devDependencies": {
     "drizzle-kit": "^0.30.5",
