@@ -5,16 +5,18 @@
   "private": true,
   "scripts": {
     "clean": "git clean -xdf .cache .next .turbo node_modules",
-    "dev": "next dev --turbopack --port 3000",
-    "build": "next build",
-    "start": "next start",
+    "dev": "pnpm with:env next dev --turbopack --port 3000",
+    "build": "pnpm with:env next build",
+    "start": "pnpm with:env next start",
     "lint": "next lint --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "with:env": "dotenv -e ../../.env --"
   },
   "dependencies": {
+    "@antho/db": "workspace:*",
     "@antho/ui": "workspace:*",
     "next": "catalog:",
+    "postgres": "^3.4.5",
     "react": "catalog:",
     "react-dom": "catalog:"
   },

@@ -10,7 +10,7 @@
     "dev": {
       "dependsOn": ["^dev"],
       "cache": false,
-      "persistent": true
+      "persistent": false
     },
     "clean": {
       "dependsOn": ["^clean"]
@@ -44,5 +44,6 @@
       "interactive": true
     }
   },
-  "globalEnv": ["SQLITE_URL", "DATABASE_URL", "DATABASE_AUTH_TOKEN", "NODE_ENV"]
+  "globalEnv": ["DATABASE_URL"],
+  "globalPassThroughEnv": ["NODE_ENV"]
 }

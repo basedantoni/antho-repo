@@ -18,7 +18,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "git clean -xdf node_modules dist",
-    "dev": "tsc --watch",
+    "dev": "tsc",
     "drizzle:generate": "pnpm with:env drizzle-kit generate",
     "migrate": "pnpm with:env drizzle-kit migrate",
     "push": "pnpm with:env drizzle-kit push",
@@ -38,8 +38,8 @@
     "typescript": "catalog:"
   },
   "dependencies": {
-    "@libsql/client": "^0.14.0",
     "drizzle-orm": "^0.40.0",
+    "postgres": "^3.4.5",
     "zod": "catalog:"
   }
 }

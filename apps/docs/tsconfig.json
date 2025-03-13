@@ -1,18 +1,11 @@
 {
   "extends": "@antho/tsconfig/nextjs.json",
   "compilerOptions": {
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    "allowJs": true
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "next-env.d.ts",
-    "next.config.js",
+    "../../tooling/tsconfig/.",
+    "../../tooling/tsconfig/.next/types/**/*.ts",
     ".next/types/**/*.ts"
-  ],
-  "exclude": ["node_modules"]
+  ]
 }

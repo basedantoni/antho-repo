@@ -18,7 +18,7 @@ const ThemeImage = (props: Props) => {
   );
 };
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -31,6 +31,13 @@ export default function Home() {
           height={38}
           priority
         />
+
+        {/* Display database query results */}
+        <div className={styles.section}>
+          <h2>Database Users:</h2>
+          {/* <pre>{JSON.stringify(users, null, 2)}</pre> */}
+        </div>
+
         <ol>
           <li>
             Get started by editing <code>apps/web/app/page.tsx</code>
