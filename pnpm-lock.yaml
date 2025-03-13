@@ -6,9 +6,6 @@ settings:
 
 catalogs:
   default:
-    '@turbo/gen':
-      specifier: ^2.4.4
-      version: 2.4.4
     '@types/node':
       specifier: ^22.13.9
       version: 22.13.9
@@ -39,6 +36,9 @@ catalogs:
     typescript:
       specifier: ^5.8.2
       version: 5.8.2
+    zod:
+      specifier: ^3.24.2
+      version: 3.24.2
 
 importers:
 
@@ -72,7 +72,7 @@ importers:
       '@antho/eslint-config':
         specifier: workspace:*
         version: link:../../tooling/eslint-config
-      '@antho/typescript-config':
+      '@antho/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript-config
       '@types/node':
@@ -112,7 +112,7 @@ importers:
       '@antho/eslint-config':
         specifier: workspace:*
         version: link:../../tooling/eslint-config
-      '@antho/typescript-config':
+      '@antho/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript-config
       '@types/node':
@@ -142,10 +142,34 @@ importers:
       drizzle-orm:
         specifier: ^0.40.0
         version: 0.40.0(@libsql/client@0.14.0)(gel@2.0.1)
+      zod:
+        specifier: 'catalog:'
+        version: 3.24.2
     devDependencies:
+      '@antho/eslint-config':
+        specifier: workspace:*
+        version: link:../../tooling/eslint-config
+      '@antho/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/typescript-config
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.13.9
+      dotenv-cli:
+        specifier: ^8.0.0
+        version: 8.0.0
       drizzle-kit:
         specifier: ^0.30.5
         version: 0.30.5
+      drizzle-zod:
+        specifier: latest
+        version: 0.7.0(drizzle-orm@0.40.0(@libsql/client@0.14.0)(gel@2.0.1))(zod@3.24.2)
+      eslint:
+        specifier: 'catalog:'
+        version: 9.22.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.5.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.2
@@ -162,11 +186,11 @@ importers:
       '@antho/eslint-config':
         specifier: workspace:*
         version: link:../../tooling/eslint-config
-      '@antho/typescript-config':
+      '@antho/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript-config
       '@turbo/gen':
-        specifier: 'catalog:'
+        specifier: ^2.4.4
         version: 2.4.4(@types/node@22.13.9)(typescript@5.8.2)
       '@types/node':
         specifier: 'catalog:'
@@ -1342,6 +1366,12 @@ packages:
         optional: true
       sqlite3:
         optional: true
+
+  drizzle-zod@0.7.0:
+    resolution: {integrity: sha512-xgCRYYVEzRkeXTS33GSMgoowe3vKsMNBjSI+cwG1oLQVEhAWWbqtb/AAMlm7tkmV4fG/uJjEmWzdzlEmTgWOoQ==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.0'
+      zod: '>=3.0.0'
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -2710,6 +2740,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+
 snapshots:
 
   '@babel/runtime-corejs3@7.26.9':
@@ -3659,6 +3692,11 @@ snapshots:
     optionalDependencies:
       '@libsql/client': 0.14.0
       gel: 2.0.1
+
+  drizzle-zod@0.7.0(drizzle-orm@0.40.0(@libsql/client@0.14.0)(gel@2.0.1))(zod@3.24.2):
+    dependencies:
+      drizzle-orm: 0.40.0(@libsql/client@0.14.0)(gel@2.0.1)
+      zod: 3.24.2
 
   dunder-proto@1.0.1:
     dependencies:
@@ -5349,3 +5387,5 @@ snapshots:
   yn@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  zod@3.24.2: {}

@@ -1,5 +1,5 @@
 {
-  "extends": "@antho/typescript-config/react-library.json",
+  "extends": "@antho/tsconfig/react-library.json",
   "compilerOptions": {
     "outDir": "dist"
   },

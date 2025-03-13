@@ -5,10 +5,15 @@
     "build": "turbo run build",
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo run clean",
+    "db:generate": "turbo -F @antho/db drizzle:generate",
+    "db:migrate": "turbo -F @antho/db migrate",
+    "db:push": "turbo -F @antho/db push",
+    "db:studio": "turbo -F @antho/db studio",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "typecheck": "turbo run typecheck"
+    "typecheck": "turbo run typecheck",
+    "ui:add": "turbo run ui-add"
   },
   "devDependencies": {
     "prettier": "catalog:",

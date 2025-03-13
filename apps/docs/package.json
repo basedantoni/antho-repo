@@ -10,7 +10,7 @@
     "start": "next start",
     "lint": "next lint --max-warnings 0",
     "typecheck": "tsc --noEmit",
-    "with-env": "dotenv -e ../../.env --"
+    "with:env": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "@antho/ui": "workspace:*",
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@antho/eslint-config": "workspace:*",
-    "@antho/typescript-config": "workspace:*",
+    "@antho/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
