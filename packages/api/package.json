@@ -1,11 +1,31 @@
 {
-  "name": "api",
+  "name": "@antho/api",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
   "scripts": {
-    "dev": "echo 'Add dev script here'",
-    "build": "echo 'Add build script here'",
-    "test": "echo 'Add test script here'",
-    "lint": "echo 'Add lint script here'"
+    "dev": "tsc",
+    "clean": "git clean -xdf node_modules dist",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "with:env": "dotenv -e ../../.env --"
+  },
+  "dependencies": {
+    "@antho/db": "workspace:*"
+  },
+  "devDependencies": {
+    "@antho/eslint-config": "workspace:*",
+    "@antho/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "dotenv-cli": "^8.0.0",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
   }
 }
