@@ -13,14 +13,20 @@
     "with:env": "dotenv -e ../../.env --"
   },
   "dependencies": {
+    "@antho/api": "workspace:*",
     "@antho/db": "workspace:*",
     "@antho/ui": "workspace:*",
+    "@t3-oss/env-nextjs": "^0.12.0",
     "@tanstack/react-query": "catalog:",
+    "@trpc/client": "catalog:",
+    "@trpc/server": "catalog:",
+    "@trpc/tanstack-react-query": "catalog:",
     "next": "catalog:",
     "postgres": "^3.4.5",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "superjson": "^2.2.2"
+    "superjson": "^2.2.2",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@antho/eslint-config": "workspace:*",
