@@ -1,6 +1,6 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import db from '@antho/db/client';
-import superjson, { SuperJSON } from 'superjson';
+import superjson from 'superjson';
 import { ZodError } from 'zod';
 
 /**

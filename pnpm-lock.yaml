@@ -6,6 +6,9 @@ settings:
 
 catalogs:
   default:
+    '@trpc/server':
+      specifier: ^11.0.0-rc.824
+      version: 11.0.0-rc.828
     '@types/node':
       specifier: ^22.13.9
       version: 22.13.9
@@ -146,13 +149,13 @@ importers:
         specifier: workspace:*
         version: link:../db
       '@trpc/server':
-        specifier: 11.0.0-rc.828
+        specifier: 'catalog:'
         version: 11.0.0-rc.828(typescript@5.8.2)
       superjson:
         specifier: ^2.2.2
         version: 2.2.2
       zod:
-        specifier: ^3.24.2
+        specifier: 'catalog:'
         version: 3.24.2
     devDependencies:
       '@antho/eslint-config':
