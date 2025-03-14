@@ -5,3 +5,9 @@ export const users = pgTable('users', {
   fullName: text('full_name'),
   phone: varchar('phone', { length: 256 }),
 });
+
+export const posts = pgTable('posts', {
+  id: serial('id').primaryKey(),
+  title: text('title'),
+  content: text('content'),
+});

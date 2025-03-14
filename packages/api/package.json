@@ -1,6 +1,6 @@
 {
   "name": "@antho/api",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "exports": {
@@ -17,7 +17,10 @@
     "with:env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "@antho/db": "workspace:*"
+    "@antho/db": "workspace:*",
+    "@trpc/server": "catalog:",
+    "superjson": "^2.2.2",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@antho/eslint-config": "workspace:*",
