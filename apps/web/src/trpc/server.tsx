@@ -55,14 +55,14 @@
 // }
 
 import 'server-only'; // <-- ensure this file cannot be imported from the client
-import { createHydrationHelpers } from '@trpc/react-query/rsc';
+import { createHydrationHelpers } from '@trpc/tanstack-react-query/rsc';
 import { cache } from 'react';
-import { appRouter, createCallerFactory, createTRPCContext } from '@antho/api';
+import { appRouter, createCaller } from '@antho/api';
 import { createQueryClient } from './query-client';
 // IMPORTANT: Create a stable getter for the query client that
 //            will return the same client during the same request.
 export const getQueryClient = cache(createQueryClient);
-const caller = createCallerFactory(appRouter)(createTRPCContext);
+const caller = createCaller;
 export const { trpc, HydrateClient } = createHydrationHelpers<typeof appRouter>(
   caller,
   getQueryClient
