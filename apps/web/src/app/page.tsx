@@ -1,8 +1,12 @@
+'use client';
+
 import { Suspense } from 'react';
 
-import { HydrateClient } from '~/trpc/server';
-
+import { HydrateClient, prefetch, trpc } from '~/trpc/server';
+import { PostList } from './_components/posts';
 export default async function Home() {
+  prefetch(trpc.post.all.queryOptions());
+
   return (
     <HydrateClient>
       <main className='container h-screen py-16'>
@@ -19,7 +23,7 @@ export default async function Home() {
                 </div>
               }
             >
-              {/* <PostList /> */}
+              <PostList />
             </Suspense>
           </div>
         </div>
