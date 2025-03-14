@@ -15,10 +15,12 @@
   "dependencies": {
     "@antho/db": "workspace:*",
     "@antho/ui": "workspace:*",
+    "@tanstack/react-query": "catalog:",
     "next": "catalog:",
     "postgres": "^3.4.5",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "superjson": "^2.2.2"
   },
   "devDependencies": {
     "@antho/eslint-config": "workspace:*",
