@@ -15,23 +15,17 @@ import { ZodError } from 'zod';
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = async (opts: {
-  headers: Headers;
-  /**
-   * TODO: add session
-   */
-  // session: Session | null;
-}) => {
-  const authToken = opts.headers.get('Authorization') ?? null;
+export const createTRPCContext = async () => {
+  // const authToken = opts.headers.get('Authorization') ?? null;
   // const session = await isomorphicGetSession(opts.headers);
 
-  const source = opts.headers.get('x-trpc-source') ?? 'unknown';
+  // const source = opts.headers.get('x-trpc-source') ?? 'unknown';
   // console.log(">>> tRPC Request from", source, "by", session?.user);
 
   return {
     // session,
     db,
-    token: authToken,
+    // token: authToken,
   };
 };
 
