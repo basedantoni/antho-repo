@@ -16,6 +16,7 @@
     "@antho/api": "workspace:*",
     "@antho/db": "workspace:*",
     "@antho/ui": "workspace:*",
+    "@clerk/nextjs": "^6.12.5",
     "@t3-oss/env-nextjs": "^0.12.0",
     "@tanstack/react-query": "catalog:",
     "@trpc/client": "catalog:",
