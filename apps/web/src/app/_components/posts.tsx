@@ -1,7 +1,7 @@
 'use client';
 
 import { RouterOutputs } from '@antho/api';
-import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useTRPC } from '~/trpc/react';
 
 export function PostList() {
@@ -24,12 +24,10 @@ export function PostList() {
   );
 }
 
-export function Post(props: { post: RouterOutputs['post']['all'][number] }) {
-  const queryClient = useQueryClient();
-
+export function Post({ post }: { post: RouterOutputs['post']['all'][number] }) {
   return (
     <div>
-      <h1>{props.post.title}</h1>
+      <h1>{post.title}</h1>
     </div>
   );
 }
