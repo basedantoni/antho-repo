@@ -4,7 +4,12 @@
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "~/components": ["./src/app/_components/*"],
+      "~/hooks": ["./src/app/hooks/*"],
+      "~/lib": ["./src/app/lib/*"],
+      "~/utils": ["./src/app/lib/utils/*"],
+      "@antho/ui/*": ["../../packages/ui/src/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts"]

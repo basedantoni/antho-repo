@@ -13,7 +13,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "typecheck": "turbo run typecheck",
-    "ui:add": "turbo run ui-add"
+    "ui": "turbo run ui"
   },
   "devDependencies": {
     "prettier": "catalog:",
