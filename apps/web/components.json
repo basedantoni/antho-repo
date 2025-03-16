@@ -11,7 +11,7 @@
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "~/_components",
+    "components": "~/app/_components",
     "hooks": "~/hooks",
     "lib": "@antho/ui/lib",
     "utils": "@antho/ui/lib/utils",
