@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
 import { HydrateClient, prefetch, trpc } from '~/trpc/server';
-import { PostList } from '~/app/_components/posts';
+import { PostList, CreatePostForm } from '~/app/_components/posts';
 export default async function PostsPage() {
   prefetch(trpc.post.all.queryOptions());
 
@@ -25,6 +25,7 @@ export default async function PostsPage() {
             </Suspense>
           </div>
         </div>
+        <CreatePostForm />
       </main>
     </HydrateClient>
   );

@@ -1,6 +1,14 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Stack, Link } from 'expo-router';
-import { Button, View, Text, ActivityIndicator } from 'react-native';
+import { useState } from 'react';
+import {
+  Button,
+  View,
+  Text,
+  ActivityIndicator,
+  TextInput,
+  Pressable,
+} from 'react-native';
 import { RouterOutputs, trpc } from '~/utils/api';
 
 function PostCard(props: { post: RouterOutputs['post']['all'][number] }) {
@@ -11,24 +19,70 @@ function PostCard(props: { post: RouterOutputs['post']['all'][number] }) {
   );
 }
 
+function CreatePost() {
+  const queryClient = useQueryClient();
+
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+
+  const { mutate, error } = useMutation(
+    trpc.post.create.mutationOptions({
+      onSuccess: async () => {
+        setTitle('');
+        setContent('');
+        await queryClient.invalidateQueries(trpc.post.all.queryFilter());
+      },
+    })
+  );
+
+  return (
+    <View>
+      <Text>Create Post</Text>
+      <TextInput
+        placeholder='Title'
+        value={title}
+        onChangeText={(text) => setTitle(text)}
+      />
+      <TextInput
+        placeholder='Content'
+        value={content}
+        onChangeText={(text) => setContent(text)}
+      />
+
+      <Pressable onPress={() => mutate({ title, content })}>
+        <Text>Create</Text>
+      </Pressable>
+    </View>
+  );
+}
+
 export default function Home() {
   const queryClient = useQueryClient();
 
-  const postQuery = useQuery(trpc.post.all.queryOptions());
+  const { mutate, error } = useMutation(
+    trpc.post.delete.mutationOptions({
+      onSettled: async () => {
+        await queryClient.invalidateQueries(trpc.post.all.queryFilter());
+      },
+    })
+  );
 
-  if (postQuery.isLoading) {
+  const { isLoading, isError, data, refetch } = useQuery(
+    trpc.post.all.queryOptions()
+  );
+
+  if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
 
-  if (postQuery.isError) {
+  if (isError) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Error: {postQuery.error.message}</Text>
-        <Button title="Retry" onPress={() => postQuery.refetch()} />
+        <Button title='Retry' onPress={() => refetch()} />
       </View>
     );
   }
@@ -38,12 +92,15 @@ export default function Home() {
       <Stack.Screen options={{ title: 'Home' }} />
       <View>
         <Text>Home</Text>
-        <Link href={{ pathname: '/details', params: { name: 'Anthony' } }} asChild>
-          <Button title="Show Details" />
+        <Link
+          href={{ pathname: '/details', params: { name: 'Anthony' } }}
+          asChild
+        >
+          <Button title='Show Details' />
         </Link>
-        {postQuery.data?.map((post) => (
-          <PostCard key={post.id} post={post} />
-        ))} 
+        {data?.map((post) => <PostCard key={post.id} post={post} />)}
+
+        <CreatePost />
       </View>
     </>
   );
