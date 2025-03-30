@@ -25,7 +25,24 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 export function PostList() {
   const trpc = useTRPC();
+  const queryClient = useQueryClient();
   const { data: posts } = useSuspenseQuery(trpc.post.all.queryOptions());
+
+  const { mutate: updatePost } = useMutation(
+    trpc.post.update.mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries(trpc.post.pathFilter());
+      },
+    })
+  );
+
+  const { mutate: deletePost } = useMutation(
+    trpc.post.delete.mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries(trpc.post.pathFilter());
+      },
+    })
+  );
 
   if (posts.length === 0) {
     return (
@@ -34,10 +51,31 @@ export function PostList() {
       </div>
     );
   }
+
   return (
     <div>
       {posts.map((p) => (
-        <Post key={p.id} post={p} />
+        <div key={p.id} className='flex items-center justify-between space-y-4'>
+          <Post post={p} />
+          <div className='flex items-center gap-2'>
+            <Button
+              className='cursor-pointer'
+              variant='outline'
+              size='sm'
+              onClick={() => updatePost({ id: p.id, title: 'Updated' })}
+            >
+              Update
+            </Button>
+            <Button
+              className='cursor-pointer'
+              variant='destructive'
+              size='sm'
+              onClick={() => deletePost({ id: p.id })}
+            >
+              Delete
+            </Button>
+          </div>
+        </div>
       ))}
     </div>
   );
@@ -73,7 +111,10 @@ export function CreatePostForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit((data) => createPost.mutate(data))}>
+      <form
+        className='space-y-3 p-2'
+        onSubmit={form.handleSubmit((data) => createPost.mutate(data))}
+      >
         <FormField
           control={form.control}
           name='title'

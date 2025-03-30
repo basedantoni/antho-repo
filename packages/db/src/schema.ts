@@ -1,24 +1,20 @@
-import { sql } from 'drizzle-orm';
-import { pgTable, text, varchar, uuid } from 'drizzle-orm/pg-core';
+import { pgTable, text, varchar } from 'drizzle-orm/pg-core';
 import {
   createInsertSchema,
   createSelectSchema,
   createUpdateSchema,
 } from 'drizzle-zod';
+import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 export const users = pgTable('users', {
-  id: uuid('id')
-    .primaryKey()
-    .default(sql`gen_random_uuid()`),
+  id: text('id').primaryKey().default(nanoid()),
   fullName: text('full_name'),
   phone: varchar('phone', { length: 256 }),
 });
 
 export const posts = pgTable('posts', {
-  id: uuid('id')
-    .primaryKey()
-    .default(sql`gen_random_uuid()`),
+  id: text('id').primaryKey().default(nanoid()),
   title: text('title'),
   content: text('content'),
 });
