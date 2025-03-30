@@ -91,7 +91,7 @@ export default function Home() {
     <>
       <Stack.Screen options={{ title: 'Home' }} />
       <View>
-        <Text>Home</Text>
+        <Text className='text-2xl font-bold'>Create Antho Repo</Text>
         <Link
           href={{ pathname: '/details', params: { name: 'Anthony' } }}
           asChild
