@@ -11,14 +11,6 @@ import {
 } from 'react-native';
 import { RouterOutputs, trpc } from '~/utils/api';
 
-function PostCard(props: { post: RouterOutputs['post']['all'][number] }) {
-  return (
-    <View>
-      <Text>{props.post.title}</Text>
-    </View>
-  );
-}
-
 function CreatePost() {
   const queryClient = useQueryClient();
 
@@ -36,21 +28,65 @@ function CreatePost() {
   );
 
   return (
-    <View>
-      <Text>Create Post</Text>
-      <TextInput
-        placeholder='Title'
-        value={title}
-        onChangeText={(text) => setTitle(text)}
-      />
-      <TextInput
-        placeholder='Content'
-        value={content}
-        onChangeText={(text) => setContent(text)}
-      />
+    <View className='flex flex-col w-full gap-4'>
+      <Text className='text-2xl font-bold'>Create Post</Text>
+      <View className='flex flex-col gap-2'>
+        <TextInput
+          placeholder='Title'
+          value={title}
+          onChangeText={(text) => setTitle(text)}
+        />
+        {error?.data?.zodError?.fieldErrors.title && (
+          <Text>{error.data.zodError.fieldErrors.title}</Text>
+        )}
+        <TextInput
+          placeholder='Content'
+          value={content}
+          onChangeText={(text) => setContent(text)}
+        />
+        {error?.data?.zodError?.fieldErrors.content && (
+          <Text>{error.data.zodError.fieldErrors.content}</Text>
+        )}
 
-      <Pressable onPress={() => mutate({ title, content })}>
-        <Text>Create</Text>
+        <Pressable onPress={() => mutate({ title, content })}>
+          <Text>Create</Text>
+        </Pressable>
+      </View>
+    </View>
+  );
+}
+
+function Post({ post }: { post: RouterOutputs['post']['all'][number] }) {
+  const queryClient = useQueryClient();
+
+  const { mutate, error } = useMutation(
+    trpc.post.delete.mutationOptions({
+      onSettled: async () => {
+        await queryClient.invalidateQueries(trpc.post.all.queryFilter());
+      },
+    })
+  );
+
+  return (
+    <View className='flex flex-row rounded-lg bg-muted'>
+      <View className='flex-grow'>
+        <Link
+          asChild
+          href={{
+            pathname: '/post/[id]',
+            params: { id: post.id },
+          }}
+        >
+          <Pressable className=''>
+            <Text className='text-xl font-semibold text-primary'>
+              {post.title}
+            </Text>
+            <Text className='mt-2 text-foreground'>{post.content}</Text>
+          </Pressable>
+        </Link>
+      </View>
+      <Pressable onPress={() => mutate({ id: post.id })}>
+        <Text className='font-bold uppercase text-primary'>Delete</Text>
       </Pressable>
     </View>
   );
@@ -90,17 +126,21 @@ export default function Home() {
   return (
     <>
       <Stack.Screen options={{ title: 'Home' }} />
-      <View>
-        <Text className='text-2xl font-bold'>Create Antho Repo</Text>
+      <View className='container w-full flex flex-col items-center gap-8 px-8 py-4'>
+        <Text className='text-4xl font-extrabold'>Create Antho Repo</Text>
+        <View className='w-full'>
+          <CreatePost />
+        </View>
+        <View className='w-full flex flex-col gap-4'>
+          <Text className='text-2xl font-bold'>Posts</Text>
+          {data?.map((post) => <Post key={post.id} post={post} />)}
+        </View>
         <Link
           href={{ pathname: '/details', params: { name: 'Anthony' } }}
           asChild
         >
           <Button title='Show Details' />
         </Link>
-        {data?.map((post) => <PostCard key={post.id} post={post} />)}
-
-        <CreatePost />
       </View>
     </>
   );
