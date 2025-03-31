@@ -1,20 +1,19 @@
-import { pgTable, text, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, varchar } from 'drizzle-orm/pg-core';
 import {
   createInsertSchema,
   createSelectSchema,
   createUpdateSchema,
 } from 'drizzle-zod';
-import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 export const users = pgTable('users', {
-  id: text('id').primaryKey().default(nanoid()),
+  id: serial('id').primaryKey(),
   fullName: text('full_name'),
   phone: varchar('phone', { length: 256 }),
 });
 
 export const posts = pgTable('posts', {
-  id: text('id').primaryKey().default(nanoid()),
+  id: serial('id').primaryKey(),
   title: text('title'),
   content: text('content'),
 });
