@@ -1,5 +1,5 @@
 import { TRPCRouterRecord } from '@trpc/server';
-import { publicProcedure } from '../trpc';
+import { protectedProcedure, publicProcedure } from '../trpc';
 import {
   insertPostSchema,
   postIdSchema,
@@ -15,18 +15,22 @@ export const postRouter = {
   byId: publicProcedure.input(postIdSchema).query(({ ctx, input: { id } }) => {
     return ctx.db.select().from(posts).where(eq(posts.id, id));
   }),
-  create: publicProcedure.input(insertPostSchema).mutation(({ ctx, input }) => {
-    return ctx.db.insert(posts).values(input).returning();
-  }),
-  update: publicProcedure.input(updatePostSchema).mutation(({ ctx, input }) => {
-    const { id, ...updateData } = input;
+  create: protectedProcedure
+    .input(insertPostSchema)
+    .mutation(({ ctx, input }) => {
+      return ctx.db.insert(posts).values(input).returning();
+    }),
+  update: protectedProcedure
+    .input(updatePostSchema)
+    .mutation(({ ctx, input }) => {
+      const { id, ...updateData } = input;
 
-    if (!id) {
-      throw new Error('Id is required');
-    }
-    return ctx.db.update(posts).set(updateData).where(eq(posts.id, id));
-  }),
-  delete: publicProcedure
+      if (!id) {
+        throw new Error('Id is required');
+      }
+      return ctx.db.update(posts).set(updateData).where(eq(posts.id, id));
+    }),
+  delete: protectedProcedure
     .input(postIdSchema)
     .mutation(({ ctx, input: { id } }) => {
       return ctx.db.delete(posts).where(eq(posts.id, id));

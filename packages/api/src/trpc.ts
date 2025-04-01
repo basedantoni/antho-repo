@@ -1,7 +1,9 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import db from '@antho/db/client';
+import { type Session } from '@clerk/backend';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
+import { auth } from '@clerk/nextjs/server';
 
 /**
  * 1. CONTEXT
@@ -16,16 +18,9 @@ import { ZodError } from 'zod';
  * @see https://trpc.io/docs/server/context
  */
 export const createTRPCContext = async () => {
-  // const authToken = opts.headers.get('Authorization') ?? null;
-  // const session = await isomorphicGetSession(opts.headers);
-
-  // const source = opts.headers.get('x-trpc-source') ?? 'unknown';
-  // console.log(">>> tRPC Request from", source, "by", session?.user);
-
   return {
-    // session,
+    auth: await auth(),
     db,
-    // token: authToken,
   };
 };
 
@@ -59,15 +54,13 @@ export const createCallerFactory = t.createCallerFactory;
  * middleware that enforces user authentication
  */
 const enforceUserAuth = t.middleware(({ ctx, next }) => {
-  // if (!ctx.session) {
-  //   throw new TRPCError({ code: 'UNAUTHORIZED' });
-  // }
+  if (!ctx.auth.userId) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
   return next({
     ctx: {
       ...ctx,
       db,
-      // infers the `session` as non-nullable
-      // session: { ...ctx.session, user: ctx.session.user },
     },
   });
 });

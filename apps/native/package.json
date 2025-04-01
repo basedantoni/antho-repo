@@ -47,6 +47,7 @@
     "@antho/eslint-config": "workspace:*",
     "@antho/tsconfig": "workspace:*",
     "@babel/core": "^7.20.0",
+    "@types/node": "catalog:",
     "@types/react": "~18.3.12",
     "@typescript-eslint/eslint-plugin": "^7.7.0",
     "@typescript-eslint/parser": "^7.7.0",

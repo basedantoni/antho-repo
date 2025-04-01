@@ -14,24 +14,37 @@ import {
 } from '@antho/ui/components/form';
 import { Input } from '@antho/ui/components/input';
 import { Textarea } from '@antho/ui/components/textarea';
+import { toast } from '@antho/ui/components/sonner';
 
 import {
   useMutation,
   useQueryClient,
   useSuspenseQuery,
 } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useTRPC } from '~/trpc/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 export function PostList() {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { data: posts } = useSuspenseQuery(trpc.post.all.queryOptions());
 
   const { mutate: updatePost } = useMutation(
     trpc.post.update.mutationOptions({
       onSuccess: () => {
         queryClient.invalidateQueries(trpc.post.pathFilter());
+      },
+      onError: (error) => {
+        toast.error(error.message, {
+          action: {
+            label: 'Sign In',
+            onClick: () => {
+              router.push('/sign-in');
+            },
+          },
+        });
       },
     })
   );
@@ -40,6 +53,16 @@ export function PostList() {
     trpc.post.delete.mutationOptions({
       onSuccess: () => {
         queryClient.invalidateQueries(trpc.post.pathFilter());
+      },
+      onError: (error) => {
+        toast.error(error.message, {
+          action: {
+            label: 'Sign In',
+            onClick: () => {
+              router.push('/sign-in');
+            },
+          },
+        });
       },
     })
   );

@@ -10,6 +10,7 @@ import {
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { TRPCReactProvider } from '~/trpc/react';
+import { Toaster } from '@antho/ui/components/sonner';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -45,6 +46,7 @@ export default function RootLayout({
               </SignedIn>
             </header>
             {children}
+            <Toaster />
           </body>
         </html>
       </TRPCReactProvider>

@@ -1,8 +1,6 @@
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 
 import { appRouter, createTRPCContext } from '@antho/api';
-// TODO: Add authentication
-// import { auth } from '@antho/auth';
 
 /**
  * Configure basic CORS headers
@@ -29,13 +27,6 @@ const handler = async (req: Request) => {
     router: appRouter,
     req,
     createContext: createTRPCContext,
-    // TODO: Add authentication
-    // createContext: () =>
-    //   createTRPCContext({
-    //     // TODO: Add authentication
-    //     // session: req.auth,
-    //     headers: req.headers,
-    //   }),
     onError({ error, path }) {
       console.error(`>>> tRPC Error on '${path}'`, error);
     },
