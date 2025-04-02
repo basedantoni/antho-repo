@@ -1,7 +1,8 @@
-import { clerkMiddleware } from '@clerk/nextjs/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-// By default, clerkMiddleware() will not protect any routes, so update when creating new routes
-export default clerkMiddleware();
+export default function middleware(request: NextRequest) {
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: [

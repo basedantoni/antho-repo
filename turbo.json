@@ -44,6 +44,6 @@
       "interactive": true
     }
   },
-  "globalEnv": ["DATABASE_URL", "CLERK_SECRET_KEY"],
-  "globalPassThroughEnv": ["NODE_ENV", "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"]
+  "globalEnv": ["DATABASE_URL"],
+  "globalPassThroughEnv": ["NODE_ENV"]
 }

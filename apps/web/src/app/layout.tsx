@@ -1,12 +1,4 @@
 import '@antho/ui/globals.css';
-import {
-  ClerkProvider,
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { TRPCReactProvider } from '~/trpc/react';
@@ -32,24 +24,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <TRPCReactProvider>
-        <html lang='en'>
-          <body className={`${geistSans.variable} ${geistMono.variable}`}>
-            <header className='flex justify-end items-center p-4 gap-4 h-16'>
-              <SignedOut>
-                <SignInButton />
-                <SignUpButton />
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
-            </header>
-            {children}
-            <Toaster />
-          </body>
-        </html>
-      </TRPCReactProvider>
-    </ClerkProvider>
+    <TRPCReactProvider>
+      <html lang='en'>
+        <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          {children}
+          <Toaster />
+        </body>
+      </html>
+    </TRPCReactProvider>
   );
 }

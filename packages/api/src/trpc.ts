@@ -1,9 +1,7 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import db from '@antho/db/client';
-import { type Session } from '@clerk/backend';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
-import { auth } from '@clerk/nextjs/server';
 
 /**
  * 1. CONTEXT
@@ -19,7 +17,8 @@ import { auth } from '@clerk/nextjs/server';
  */
 export const createTRPCContext = async () => {
   return {
-    auth: await auth(),
+    // TODO: Add Supabase Auth
+    // auth: await auth(),
     db,
   };
 };
@@ -54,9 +53,10 @@ export const createCallerFactory = t.createCallerFactory;
  * middleware that enforces user authentication
  */
 const enforceUserAuth = t.middleware(({ ctx, next }) => {
-  if (!ctx.auth.userId) {
-    throw new TRPCError({ code: 'UNAUTHORIZED' });
-  }
+  // TODO: Add Supabase Auth
+  // if (!ctx.auth.userId) {
+  //   throw new TRPCError({ code: 'UNAUTHORIZED' });
+  // }
   return next({
     ctx: {
       ...ctx,
