@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { TRPCReactProvider } from '~/trpc/react';
 import { Toaster } from '@antho/ui/components/sonner';
+import { ThemeProvider } from './_components/theme-provider';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -25,9 +26,16 @@ export default function RootLayout({
 }>) {
   return (
     <TRPCReactProvider>
-      <html lang='en'>
+      <html lang='en' suppressHydrationWarning>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          {children}
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
           <Toaster />
         </body>
       </html>
