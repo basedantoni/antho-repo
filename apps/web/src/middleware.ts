@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { updateSession } from './utils/supabase/middleware';
 
 export default function middleware(request: NextRequest) {
-  return NextResponse.next();
+  if (
+    request.nextUrl.pathname.startsWith('/api/health') ||
+    request.nextUrl.pathname.startsWith('/api/auth')
+  ) {
+    return NextResponse.next();
+  }
+  return updateSession(request);
 }
 
 export const config = {

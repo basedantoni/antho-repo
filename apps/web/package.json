@@ -23,6 +23,7 @@
     "@trpc/client": "catalog:",
     "@trpc/server": "catalog:",
     "@trpc/tanstack-react-query": "catalog:",
+    "lucide-react": "catalog:",
     "next": "catalog:",
     "next-themes": "^0.4.6",
     "postgres": "^3.4.5",

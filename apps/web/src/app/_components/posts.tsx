@@ -39,9 +39,9 @@ export function PostList() {
       onError: (error) => {
         toast.error(error.message, {
           action: {
-            label: 'Sign In',
+            label: 'Login',
             onClick: () => {
-              router.push('/sign-in');
+              router.push('/login');
             },
           },
         });
@@ -57,9 +57,9 @@ export function PostList() {
       onError: (error) => {
         toast.error(error.message, {
           action: {
-            label: 'Sign In',
+            label: 'Login',
             onClick: () => {
-              router.push('/sign-in');
+              router.push('/login');
             },
           },
         });
