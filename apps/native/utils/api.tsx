@@ -30,6 +30,7 @@ export const trpc = createTRPCOptionsProxy<AppRouter>({
         headers() {
           const headers = new Map<string, string>();
           headers.set('x-trpc-source', 'react-native');
+          headers.set('x-supabase-session', 'TEST-Session-ID');
 
           // TODO: Add auth token
 
