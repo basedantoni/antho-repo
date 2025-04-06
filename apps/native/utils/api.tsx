@@ -6,6 +6,14 @@ import superjson from 'superjson';
 import { AppRouter } from '@antho/api';
 
 import { getBaseUrl } from './base-url';
+import { supabase } from '~/lib/supabase';
+
+const getSession = async () => {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  return session;
+};
 
 export const queryClient = new QueryClient({
   defaultOptions: {
