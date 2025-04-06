@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-import { createClient } from '~/utils/supabase/server';
+import { createClient } from '@antho/auth/server';
 
 import { loginSchema, signUpSchema } from '~/app/(auth)/auth-schema';
 
@@ -50,4 +50,10 @@ export async function signup(data: FormData): Promise<FormState> {
 
   revalidatePath('/', 'layout');
   redirect('/posts');
+}
+
+export async function signout() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect('/');
 }

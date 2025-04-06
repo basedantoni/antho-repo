@@ -1,5 +1,8 @@
 'use client';
 
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 import { RouterOutputs } from '@antho/api';
 import { insertPostSchema, NewPost } from '@antho/db/schema';
 
@@ -21,7 +24,6 @@ import {
   useQueryClient,
   useSuspenseQuery,
 } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { useTRPC } from '~/trpc/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -106,9 +108,9 @@ export function PostList() {
 
 export function Post({ post }: { post: RouterOutputs['post']['all'][number] }) {
   return (
-    <div>
+    <Link href={`/posts/${post.id}`}>
       <h1>{post.title}</h1>
-    </div>
+    </Link>
   );
 }
 

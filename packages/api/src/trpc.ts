@@ -1,5 +1,6 @@
-import { initTRPC, TRPCError } from '@trpc/server';
+import { createClient } from '@antho/auth/server';
 import db from '@antho/db/client';
+import { initTRPC, TRPCError } from '@trpc/server';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
 
@@ -16,9 +17,22 @@ import { ZodError } from 'zod';
  * @see https://trpc.io/docs/server/context
  */
 export const createTRPCContext = async () => {
+  const supabase = await createClient();
   return {
-    // TODO: Add Supabase Auth
-    // auth: await auth(),
+    auth: {
+      getUser: async () => {
+        return await supabase.auth.getUser();
+      },
+      getSession: async () => {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        return session;
+      },
+      signOut: async () => {
+        await supabase.auth.signOut();
+      },
+    },
     db,
   };
 };
@@ -52,11 +66,25 @@ export const createCallerFactory = t.createCallerFactory;
 /**
  * middleware that enforces user authentication
  */
-const enforceUserAuth = t.middleware(({ ctx, next }) => {
-  // TODO: Add Supabase Auth
-  // if (!ctx.auth.userId) {
-  //   throw new TRPCError({ code: 'UNAUTHORIZED' });
-  // }
+const enforceUserAuth = t.middleware(async ({ ctx, next }) => {
+  const {
+    data: { user },
+    error,
+  } = await ctx.auth.getUser();
+
+  if (!user) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'You must be logged in to access this resource',
+    });
+  }
+
+  if (error) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: error.message,
+    });
+  }
   return next({
     ctx: {
       ...ctx,

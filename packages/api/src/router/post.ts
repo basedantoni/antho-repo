@@ -12,9 +12,11 @@ export const postRouter = {
   all: publicProcedure.query(({ ctx }) => {
     return ctx.db.select().from(posts).limit(10);
   }),
-  byId: publicProcedure.input(postIdSchema).query(({ ctx, input: { id } }) => {
-    return ctx.db.select().from(posts).where(eq(posts.id, id));
-  }),
+  byId: protectedProcedure
+    .input(postIdSchema)
+    .query(({ ctx, input: { id } }) => {
+      return ctx.db.select().from(posts).where(eq(posts.id, id));
+    }),
   create: protectedProcedure
     .input(insertPostSchema)
     .mutation(({ ctx, input }) => {

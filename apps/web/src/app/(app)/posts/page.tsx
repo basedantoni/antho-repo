@@ -7,7 +7,7 @@ export default async function PostsPage() {
 
   return (
     <HydrateClient>
-      <main className='container flex h-screen flex-col items-center py-24 space-y-8'>
+      <main className='w-full flex h-screen flex-col items-center py-24 space-y-8'>
         <div className='flex flex-col items-center justify-center space-y-2'>
           <h1 className='text-5xl font-extrabold tracking-tight sm:text-[5rem]'>
             Create Antho Repo

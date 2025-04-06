@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { updateSession } from './utils/supabase/middleware';
+import { updateSession } from '@antho/auth/middleware';
 
 export default function middleware(request: NextRequest) {
   if (
+    request.nextUrl.pathname.startsWith('/api/auth/confirm') ||
     request.nextUrl.pathname.startsWith('/api/health') ||
-    request.nextUrl.pathname.startsWith('/api/auth') ||
-    // TODO: Remove this once we have a proper auth middleware for Mobile and Web
-    request.nextUrl.pathname.startsWith('/api/trpc')
+    request.nextUrl.pathname.startsWith('/login') ||
+    request.nextUrl.pathname.startsWith('/sign-up')
   ) {
     return NextResponse.next();
   }

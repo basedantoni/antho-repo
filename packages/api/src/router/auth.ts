@@ -6,18 +6,16 @@ import { protectedProcedure, publicProcedure } from '../trpc';
 
 export const authRouter = {
   getSession: publicProcedure.query(({ ctx }) => {
-    return ctx;
-    // return ctx.session;
+    return ctx.auth.getSession();
   }),
   getSecretMessage: protectedProcedure.query(() => {
     return 'you can see this secret message!';
   }),
-  signOut: protectedProcedure.mutation(async (opts) => {
-    // if (!opts.ctx.token) {
-    if (!opts.ctx) {
-      return { success: false };
+  signOut: protectedProcedure.mutation(async ({ ctx }) => {
+    if (!ctx) {
+      return { message: 'No context' };
     }
-    // await invalidateSessionToken(opts.ctx.token);
-    return { success: true };
+    await ctx.auth.signOut();
+    return { message: 'Signed out' };
   }),
 } satisfies TRPCRouterRecord;

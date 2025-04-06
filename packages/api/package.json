@@ -17,6 +17,7 @@
     "with:env": "dotenv -e ../../.env --"
   },
   "dependencies": {
+    "@antho/auth": "workspace:*",
     "@antho/db": "workspace:*",
     "@trpc/server": "catalog:",
     "superjson": "^2.2.2",

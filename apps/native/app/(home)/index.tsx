@@ -51,13 +51,13 @@ export default function Home() {
         {session && session.user && <Text>{session.user.id}</Text>}
         <Auth />
 
-        {/* <View className='w-full'>
+        <View className='w-full'>
           <CreatePost />
         </View>
         <View className='w-full flex flex-col gap-4'>
           <Text className='text-2xl font-bold'>Posts</Text>
           {data?.map((post) => <Post key={post.id} post={post} />)}
-        </View> */}
+        </View>
       </View>
     </>
   );

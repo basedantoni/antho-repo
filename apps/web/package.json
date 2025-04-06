@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@antho/api": "workspace:*",
+    "@antho/auth": "workspace:*",
     "@antho/db": "workspace:*",
     "@antho/ui": "workspace:*",
     "@supabase/ssr": "^0.6.1",
