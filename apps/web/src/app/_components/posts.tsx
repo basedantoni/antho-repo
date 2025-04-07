@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 import { RouterOutputs } from '@antho/api';
 import { insertPostSchema, NewPost } from '@antho/db/schema';
@@ -30,7 +29,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 export function PostList() {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
-  const router = useRouter();
   const { data: posts } = useSuspenseQuery(trpc.post.all.queryOptions());
 
   const { mutate: updatePost } = useMutation(
@@ -39,14 +37,7 @@ export function PostList() {
         queryClient.invalidateQueries(trpc.post.pathFilter());
       },
       onError: (error) => {
-        toast.error(error.message, {
-          action: {
-            label: 'Login',
-            onClick: () => {
-              router.push('/login');
-            },
-          },
-        });
+        toast.error(error.message);
       },
     })
   );
@@ -57,14 +48,7 @@ export function PostList() {
         queryClient.invalidateQueries(trpc.post.pathFilter());
       },
       onError: (error) => {
-        toast.error(error.message, {
-          action: {
-            label: 'Login',
-            onClick: () => {
-              router.push('/login');
-            },
-          },
-        });
+        toast.error(error.message);
       },
     })
   );
