@@ -31,3 +31,10 @@ AppState.addEventListener('change', (state) => {
     supabase.auth.stopAutoRefresh();
   }
 });
+
+export const getSession = async () => {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  return session?.access_token;
+};

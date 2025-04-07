@@ -16,22 +16,24 @@ import { ZodError } from 'zod';
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = async () => {
+export const createTRPCContext = async (opts: { headers: Headers }) => {
+  const token = opts.headers.get('Authorization')?.split(' ')[1] ?? null;
+
   const supabase = await createClient();
+  // Expo token is sent via Authorization header
+  // Next.js token is from the cookie
+  const {
+    data: { user },
+  } = token
+    ? await supabase.auth.getUser(token) // Validates token
+    : await supabase.auth.getUser();
+
+  const source = opts.headers.get('x-trpc-source') ?? 'unknown';
+  console.log(`>>> tRPC Request from: ${source} by ${user?.email}`);
+
   return {
     auth: {
-      getUser: async () => {
-        return await supabase.auth.getUser();
-      },
-      getSession: async () => {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
-        return session;
-      },
-      signOut: async () => {
-        await supabase.auth.signOut();
-      },
+      user,
     },
     db,
   };
@@ -67,24 +69,16 @@ export const createCallerFactory = t.createCallerFactory;
  * middleware that enforces user authentication
  */
 const enforceUserAuth = t.middleware(async ({ ctx, next }) => {
-  const {
-    data: { user },
-    error,
-  } = await ctx.auth.getUser();
+  const { user } = ctx.auth;
 
   if (!user) {
+    console.log('No user');
     throw new TRPCError({
       code: 'UNAUTHORIZED',
       message: 'You must be logged in to access this resource',
     });
   }
 
-  if (error) {
-    throw new TRPCError({
-      code: 'INTERNAL_SERVER_ERROR',
-      message: error.message,
-    });
-  }
   return next({
     ctx: {
       ...ctx,

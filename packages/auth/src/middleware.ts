@@ -34,6 +34,12 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user && request.headers.get('x-trpc-source') === 'expo-react') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/';
+    return NextResponse.next();
+  }
+
   // Redirect if no user and the path is not auth
   if (!user && !request.nextUrl.pathname.startsWith('/auth')) {
     const url = request.nextUrl.clone();

@@ -5,15 +5,8 @@ import superjson from 'superjson';
 
 import { AppRouter } from '@antho/api';
 
-import { getBaseUrl } from './base-url';
-import { supabase } from '~/lib/supabase';
-
-const getSession = async () => {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  return session;
-};
+import { getBaseUrl } from '~/utils/base-url';
+import { getSession } from '~/lib/supabase';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,13 +28,12 @@ export const trpc = createTRPCOptionsProxy<AppRouter>({
       httpBatchLink({
         transformer: superjson,
         url: `${getBaseUrl()}/api/trpc`,
-        headers() {
+        async headers() {
           const headers = new Map<string, string>();
-          headers.set('x-trpc-source', 'react-native');
-          headers.set('x-supabase-session', 'TEST-Session-ID');
+          headers.set('x-trpc-source', 'expo-react');
 
-          // TODO: Add auth token
-
+          const token = await getSession();
+          if (token) headers.set('Authorization', `Bearer ${token}`);
           return Object.fromEntries(headers);
         },
       }),

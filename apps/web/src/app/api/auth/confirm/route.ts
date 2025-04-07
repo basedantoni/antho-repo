@@ -19,8 +19,6 @@ export async function GET(request: NextRequest) {
       token_hash,
     });
     console.error('Error confirming email', error);
-    console.log('Token hash', token_hash);
-    console.log('Type', type);
     if (!error) {
       redirect(next);
     }

@@ -1,5 +1,5 @@
 import { TRPCRouterRecord } from '@trpc/server';
-import { protectedProcedure, publicProcedure } from '../trpc';
+import { protectedProcedure } from '../trpc';
 import {
   insertPostSchema,
   postIdSchema,
@@ -9,7 +9,7 @@ import {
 import { eq } from 'drizzle-orm';
 
 export const postRouter = {
-  all: publicProcedure.query(({ ctx }) => {
+  all: protectedProcedure.query(({ ctx }) => {
     return ctx.db.select().from(posts).limit(10);
   }),
   byId: protectedProcedure
