@@ -13,16 +13,23 @@ export const users = pgTable('users', {
 });
 
 export const posts = pgTable('posts', {
-  id: serial('id').primaryKey(),
+  privateId: serial('private_id').primaryKey(),
+  publicId: varchar('public_id', { length: 256 }).notNull().unique(),
   title: text('title'),
   content: text('content'),
 });
 
-export const insertPostSchema = createInsertSchema(posts).omit({ id: true });
-export const selectPostSchema = createSelectSchema(posts);
-export const updatePostSchema = createUpdateSchema(posts);
-export const postIdSchema = selectPostSchema.pick({ id: true });
+export const insertPostSchema = createInsertSchema(posts).omit({
+  privateId: true,
+});
+export const selectPostSchema = createSelectSchema(posts).omit({
+  privateId: true,
+});
+export const updatePostSchema = createUpdateSchema(posts).omit({
+  privateId: true,
+});
+export const postIdSchema = selectPostSchema.pick({ publicId: true });
 
 export type Post = typeof posts.$inferSelect;
 export type NewPost = z.infer<typeof insertPostSchema>;
-export type PostId = z.infer<typeof postIdSchema>['id'];
+export type PostId = z.infer<typeof postIdSchema>['publicId'];

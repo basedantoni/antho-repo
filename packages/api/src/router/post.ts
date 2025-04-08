@@ -14,8 +14,8 @@ export const postRouter = {
   }),
   byId: protectedProcedure
     .input(postIdSchema)
-    .query(({ ctx, input: { id } }) => {
-      return ctx.db.select().from(posts).where(eq(posts.id, id));
+    .query(({ ctx, input: { publicId } }) => {
+      return ctx.db.select().from(posts).where(eq(posts.publicId, publicId));
     }),
   create: protectedProcedure
     .input(insertPostSchema)
@@ -25,16 +25,19 @@ export const postRouter = {
   update: protectedProcedure
     .input(updatePostSchema)
     .mutation(({ ctx, input }) => {
-      const { id, ...updateData } = input;
+      const { publicId, ...updateData } = input;
 
-      if (!id) {
+      if (!publicId) {
         throw new Error('Id is required');
       }
-      return ctx.db.update(posts).set(updateData).where(eq(posts.id, id));
+      return ctx.db
+        .update(posts)
+        .set(updateData)
+        .where(eq(posts.publicId, publicId));
     }),
   delete: protectedProcedure
     .input(postIdSchema)
-    .mutation(({ ctx, input: { id } }) => {
-      return ctx.db.delete(posts).where(eq(posts.id, id));
+    .mutation(({ ctx, input: { publicId } }) => {
+      return ctx.db.delete(posts).where(eq(posts.publicId, publicId));
     }),
 } satisfies TRPCRouterRecord;

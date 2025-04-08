@@ -25,6 +25,7 @@ import {
 } from '@tanstack/react-query';
 import { useTRPC } from '~/trpc/react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { nanoid } from 'nanoid';
 
 export function PostList() {
   const trpc = useTRPC();
@@ -60,14 +61,19 @@ export function PostList() {
   return (
     <>
       {posts.map((p) => (
-        <div key={p.id} className='flex items-center justify-between space-y-4'>
+        <div
+          key={p.publicId}
+          className='flex items-center justify-between space-y-4'
+        >
           <Post post={p} />
           <div className='flex items-center gap-2'>
             <Button
               className='cursor-pointer'
               variant='outline'
               size='sm'
-              onClick={() => updatePost({ id: p.id, title: 'Updated' })}
+              onClick={() =>
+                updatePost({ publicId: p.publicId, title: 'Updated' })
+              }
             >
               Update
             </Button>
@@ -75,7 +81,7 @@ export function PostList() {
               className='cursor-pointer'
               variant='destructive'
               size='sm'
-              onClick={() => deletePost({ id: p.id })}
+              onClick={() => deletePost({ publicId: p.publicId })}
             >
               Delete
             </Button>
@@ -101,11 +107,12 @@ export function CreatePostForm() {
     defaultValues: {
       title: '',
       content: '',
+      publicId: '',
     },
   });
   const queryClient = useQueryClient();
 
-  const createPost = useMutation(
+  const { mutate: createPost } = useMutation(
     trpc.post.create.mutationOptions({
       onSuccess: async () => {
         form.reset();
@@ -114,11 +121,15 @@ export function CreatePostForm() {
     })
   );
 
+  const handleSubmit = (data: NewPost) => {
+    createPost({ ...data, publicId: nanoid() });
+  };
+
   return (
     <Form {...form}>
       <form
         className='space-y-3 p-2'
-        onSubmit={form.handleSubmit((data) => createPost.mutate(data))}
+        onSubmit={form.handleSubmit(handleSubmit)}
       >
         <FormField
           control={form.control}
