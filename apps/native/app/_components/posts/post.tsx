@@ -8,7 +8,7 @@ const Post = ({ post }: { post: RouterOutputs['post']['all'][number] }) => {
       asChild
       href={{
         pathname: '/post/[id]',
-        params: { id: post.id },
+        params: { id: post.publicId },
       }}
       className='flex flex-col'
     >

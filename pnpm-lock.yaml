@@ -289,9 +289,6 @@ importers:
       lucide-react:
         specifier: 'catalog:'
         version: 0.482.0(react@19.0.0)
-      nanoid:
-        specifier: ^5.1.5
-        version: 5.1.5
       next:
         specifier: 'catalog:'
         version: 15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -424,6 +421,9 @@ importers:
       drizzle-orm:
         specifier: ^0.40.0
         version: 0.40.0(@libsql/client@0.14.0)(gel@2.0.1)(postgres@3.4.5)
+      nanoid:
+        specifier: ^5.1.5
+        version: 5.1.5
       postgres:
         specifier: ^3.4.5
         version: 3.4.5

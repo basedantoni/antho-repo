@@ -27,9 +27,6 @@ export const postRouter = {
     .mutation(({ ctx, input }) => {
       const { publicId, ...updateData } = input;
 
-      if (!publicId) {
-        throw new Error('Id is required');
-      }
       return ctx.db
         .update(posts)
         .set(updateData)

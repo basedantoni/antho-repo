@@ -58,18 +58,22 @@ export default function Home() {
           <Text className='text-2xl font-bold'>Posts</Text>
           {data?.map((post) => (
             <View
-              key={post.id}
+              key={post.publicId}
               className='w-full flex flex-row items-start justify-between'
             >
               <Post post={post} />
               <View className='flex flex-row items-center gap-2'>
-                <Pressable onPress={() => deletePost({ id: post.id })}>
+                <Pressable
+                  onPress={() => deletePost({ publicId: post.publicId })}
+                >
                   <Text className='font-bold uppercase text-primary'>
                     Delete
                   </Text>
                 </Pressable>
                 <Pressable
-                  onPress={() => updatePost({ id: post.id, title: 'Updated' })}
+                  onPress={() =>
+                    updatePost({ publicId: post.publicId, title: 'Updated' })
+                  }
                 >
                   <Text className='font-bold uppercase text-primary'>
                     Update

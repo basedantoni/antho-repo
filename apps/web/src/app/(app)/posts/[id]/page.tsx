@@ -16,7 +16,7 @@ export default async function PostPage({
   const { id } = await params;
   const queryClient = getQueryClient();
   const result = await queryClient.fetchQuery(
-    trpc.post.byId.queryOptions({ id: parseInt(id) })
+    trpc.post.byId.queryOptions({ publicId: id })
   );
   const post = result[0];
 

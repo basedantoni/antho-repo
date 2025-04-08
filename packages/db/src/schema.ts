@@ -5,6 +5,7 @@ import {
   createUpdateSchema,
 } from 'drizzle-zod';
 import { z } from 'zod';
+import { nanoid } from 'nanoid';
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
@@ -14,20 +15,34 @@ export const users = pgTable('users', {
 
 export const posts = pgTable('posts', {
   privateId: serial('private_id').primaryKey(),
-  publicId: varchar('public_id', { length: 256 }).notNull().unique(),
+  publicId: varchar('public_id', { length: 256 })
+    .unique()
+    .$defaultFn(() => nanoid()),
   title: text('title'),
   content: text('content'),
 });
 
 export const insertPostSchema = createInsertSchema(posts).omit({
   privateId: true,
+  publicId: true,
 });
-export const selectPostSchema = createSelectSchema(posts).omit({
-  privateId: true,
-});
-export const updatePostSchema = createUpdateSchema(posts).omit({
-  privateId: true,
-});
+
+export const selectPostSchema = createSelectSchema(posts)
+  .omit({
+    privateId: true,
+  })
+  .extend({
+    publicId: z.string().min(1, 'Public ID is required'),
+  });
+
+export const updatePostSchema = createUpdateSchema(posts)
+  .omit({
+    privateId: true,
+  })
+  .extend({
+    publicId: z.string().min(1, 'Public ID is required'),
+  });
+
 export const postIdSchema = selectPostSchema.pick({ publicId: true });
 
 export type Post = typeof posts.$inferSelect;

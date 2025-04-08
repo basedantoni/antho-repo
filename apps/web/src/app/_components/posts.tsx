@@ -25,7 +25,6 @@ import {
 } from '@tanstack/react-query';
 import { useTRPC } from '~/trpc/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { nanoid } from 'nanoid';
 
 export function PostList() {
   const trpc = useTRPC();
@@ -94,7 +93,7 @@ export function PostList() {
 
 export function Post({ post }: { post: RouterOutputs['post']['all'][number] }) {
   return (
-    <Link href={`/posts/${post.id}`}>
+    <Link href={`/posts/${post.publicId}`}>
       <h1>{post.title}</h1>
     </Link>
   );
@@ -107,12 +106,11 @@ export function CreatePostForm() {
     defaultValues: {
       title: '',
       content: '',
-      publicId: '',
     },
   });
   const queryClient = useQueryClient();
 
-  const { mutate: createPost } = useMutation(
+  const { mutate: createPost, isPending } = useMutation(
     trpc.post.create.mutationOptions({
       onSuccess: async () => {
         form.reset();
@@ -121,15 +119,11 @@ export function CreatePostForm() {
     })
   );
 
-  const handleSubmit = (data: NewPost) => {
-    createPost({ ...data, publicId: nanoid() });
-  };
-
   return (
     <Form {...form}>
       <form
         className='space-y-3 p-2'
-        onSubmit={form.handleSubmit(handleSubmit)}
+        onSubmit={form.handleSubmit((data) => createPost(data))}
       >
         <FormField
           control={form.control}
@@ -155,8 +149,8 @@ export function CreatePostForm() {
             </FormItem>
           )}
         />
-        <Button type='submit' disabled={createPost.isPending}>
-          {createPost.isPending ? 'Creating...' : 'Create'}
+        <Button type='submit' disabled={isPending}>
+          {isPending ? 'Creating...' : 'Create'}
         </Button>
       </form>
     </Form>

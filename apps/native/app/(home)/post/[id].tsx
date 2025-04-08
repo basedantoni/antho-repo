@@ -7,7 +7,7 @@ import { trpc } from '~/utils/api';
 export default function Post() {
   const { id } = useGlobalSearchParams<{ id: string }>();
   if (!id) throw new Error('unreachable');
-  const { data } = useQuery(trpc.post.byId.queryOptions({ id: Number(id) }));
+  const { data } = useQuery(trpc.post.byId.queryOptions({ publicId: id }));
 
   if (!data) return null;
 
