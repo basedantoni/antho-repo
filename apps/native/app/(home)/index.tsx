@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { Stack, Link } from 'expo-router';
-import { Button, View, Text, ActivityIndicator } from 'react-native';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Stack } from 'expo-router';
+import { Button, View, Text, ActivityIndicator, Pressable } from 'react-native';
 import { trpc } from '~/utils/api';
 import CreatePost from '~/app/_components/posts/create-post';
 import Post from '~/app/_components/posts/post';
@@ -11,9 +11,27 @@ export default function Home() {
     trpc.post.all.queryOptions()
   );
 
+  const queryClient = useQueryClient();
+
+  const { mutate: deletePost, error } = useMutation(
+    trpc.post.delete.mutationOptions({
+      onSettled: async () => {
+        await queryClient.invalidateQueries(trpc.post.all.queryFilter());
+      },
+    })
+  );
+
+  const { mutate: updatePost, error: updatePostError } = useMutation(
+    trpc.post.update.mutationOptions({
+      onSettled: async () => {
+        await queryClient.invalidateQueries(trpc.post.all.queryFilter());
+      },
+    })
+  );
+
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View className='flex-1 items-center justify-center'>
         <ActivityIndicator size='large' />
       </View>
     );
@@ -21,28 +39,50 @@ export default function Home() {
 
   if (isError) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View className='flex-1 items-center justify-center'>
         <Button title='Retry' onPress={() => refetch()} />
       </View>
     );
   }
 
   return (
-    <>
-      <Stack.Screen options={{ title: 'Home' }} />
-      <View className='container w-full flex flex-col items-center gap-8 px-8 py-4'>
-        <Text className='text-4xl font-extrabold'>Create Antho Repo</Text>
+    <View className='flex flex-col p-4 gap-8'>
+      <View className='w-full flex flex-row justify-end'>
         <MobileAuth />
-        <Link href='/login'>Login</Link>
-
+      </View>
+      <View className='w-full flex flex-col items-center gap-8'>
+        <Text className='text-4xl font-extrabold tracking-tight'>
+          Create Antho Repo
+        </Text>
+        <View className='w-full flex flex-col gap-4'>
+          <Text className='text-2xl font-bold'>Posts</Text>
+          {data?.map((post) => (
+            <View
+              key={post.id}
+              className='w-full flex flex-row items-start justify-between'
+            >
+              <Post post={post} />
+              <View className='flex flex-row items-center gap-2'>
+                <Pressable onPress={() => deletePost({ id: post.id })}>
+                  <Text className='font-bold uppercase text-primary'>
+                    Delete
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => updatePost({ id: post.id, title: 'Updated' })}
+                >
+                  <Text className='font-bold uppercase text-primary'>
+                    Update
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          ))}
+        </View>
         <View className='w-full'>
           <CreatePost />
         </View>
-        <View className='w-full flex flex-col gap-4'>
-          <Text className='text-2xl font-bold'>Posts</Text>
-          {data?.map((post) => <Post key={post.id} post={post} />)}
-        </View>
       </View>
-    </>
+    </View>
   );
 }

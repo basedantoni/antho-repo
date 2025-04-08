@@ -54,15 +54,11 @@ export function PostList() {
   );
 
   if (posts.length === 0) {
-    return (
-      <div>
-        <p>No posts found</p>
-      </div>
-    );
+    return <p>No posts found</p>;
   }
 
   return (
-    <div>
+    <>
       {posts.map((p) => (
         <div key={p.id} className='flex items-center justify-between space-y-4'>
           <Post post={p} />
@@ -86,7 +82,7 @@ export function PostList() {
           </div>
         </div>
       ))}
-    </div>
+    </>
   );
 }
 
