@@ -1,8 +1,8 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, TextInput, View } from 'react-native';
+import Button from '~/app/_components/ui/button';
 import { supabase } from '~/lib/supabase';
-import { Button, Input } from '@rneui/themed';
 
 export default function Auth() {
   const [email, setEmail] = useState('');
@@ -42,10 +42,9 @@ export default function Auth() {
   }
 
   return (
-    <View className='w-full flex flex-col gap-4'>
+    <View className='w-full flex flex-col px-8 py-4 gap-4'>
       <View>
-        <Input
-          label='Email'
+        <TextInput
           onChangeText={(text) => setEmail(text)}
           value={email}
           placeholder='email@address.com'
@@ -53,8 +52,7 @@ export default function Auth() {
         />
       </View>
       <View>
-        <Input
-          label='Password'
+        <TextInput
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry={true}
@@ -62,20 +60,18 @@ export default function Auth() {
           autoCapitalize={'none'}
         />
       </View>
-      <View>
-        <Button
-          title='Sign in'
-          disabled={loading}
-          onPress={() => signInWithEmail()}
-        />
-      </View>
-      <View>
-        <Button
-          title='Sign up'
-          disabled={loading}
-          onPress={() => signUpWithEmail()}
-        />
-      </View>
+      <Button
+        label='Sign in'
+        mode='primary'
+        disabled={loading}
+        onPress={() => signInWithEmail()}
+      />
+      <Button
+        label='Sign up'
+        mode='secondary'
+        disabled={loading}
+        onPress={() => signUpWithEmail()}
+      />
     </View>
   );
 }
