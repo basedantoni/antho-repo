@@ -8,23 +8,11 @@ import {
   TextStyle,
 } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
-
-// Define theme type
-type Theme = {
-  colors: {
-    primary: string;
-    secondary: string;
-    destructive: string;
-    onPrimary: string;
-    onSecondary: string;
-    onDestructive: string;
-    onSurfaceDisabled: string;
-  };
-};
+import { Theme } from '~/utils/theme';
 
 export interface ButtonProps {
   label: string;
-  mode: 'primary' | 'secondary' | 'destructive' | 'text';
+  mode: 'primary' | 'secondary' | 'destructive' | 'outline' | 'ghost' | 'link';
   state?: 'default' | 'hovered' | 'pressed' | 'focused' | 'disabled';
   disabled?: boolean;
   showIcon?: boolean;
@@ -46,10 +34,11 @@ export default function Button({
   const _modePrimary = mode === 'primary';
   const _modeSecondary = mode === 'secondary';
   const _modeDestructive = mode === 'destructive';
-  const _modeText = mode === 'text';
+  const _modeOutline = mode === 'outline';
+  const _modeGhost = mode === 'ghost';
+  const _modeLink = mode === 'link';
 
   const _stateDisabled = state === 'disabled' || disabled;
-  const _stateHovered = state === 'hovered';
   const _statePressed = state === 'pressed';
   const _stateFocused = state === 'focused';
 
@@ -59,9 +48,10 @@ export default function Button({
       ...(_modePrimary && styles.primary),
       ...(_modeSecondary && styles.secondary),
       ...(_modeDestructive && styles.destructive),
-      ...(_modeText && styles.text),
+      ...(_modeOutline && styles.outline),
+      ...(_modeGhost && styles.ghost),
+      ...(_modeLink && styles.link),
       ...(_stateDisabled && styles.disabled),
-      ...(_stateHovered && styles.hovered),
       ...(_statePressed && styles.pressed),
       ...(_stateFocused && styles.focused),
     };
@@ -69,12 +59,11 @@ export default function Button({
     const getLabelStyle = (state: PressableStateCallbackType): TextStyle => {
       return {
         ...styles.label,
-        ...(_modePrimary && styles.primaryLabel),
-        ...(_modeSecondary && styles.secondaryLabel),
-        ...(_modeDestructive && styles.destructiveLabel),
-        ...(_modeText && styles.textLabel),
+        ...(_modePrimary && styles.primaryForeground),
+        ...(_modeSecondary && styles.secondaryForeground),
+        ...(_modeDestructive && styles.destructiveForeground),
+        ...(_modeOutline && styles.secondaryForeground),
         ...(_stateDisabled && styles.disabledLabel),
-        ...(_stateHovered && styles.hoveredLabel),
         ...(_statePressed && styles.pressedLabel),
         ...(_stateFocused && styles.focusedLabel),
       };
@@ -91,9 +80,10 @@ export default function Button({
     _modePrimary,
     _modeSecondary,
     _modeDestructive,
-    _modeText,
+    _modeOutline,
+    _modeGhost,
+    _modeLink,
     _stateDisabled,
-    _stateHovered,
     _statePressed,
     _stateFocused,
   ]);
@@ -119,17 +109,26 @@ const stylesheet = createStyleSheet((theme: Theme) => ({
     paddingVertical: 8,
     paddingHorizontal: 16,
     minHeight: 36,
+    boxShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.05)',
   },
   primary: {
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.primary,
   },
   secondary: {
-    backgroundColor: theme.colors.secondary,
+    backgroundColor: theme.secondary,
   },
   destructive: {
-    backgroundColor: theme.colors.destructive,
+    backgroundColor: theme.destructive,
   },
-  text: {
+  outline: {
+    backgroundColor: theme.background,
+    borderWidth: 1,
+    borderColor: theme.primary,
+  },
+  ghost: {
+    backgroundColor: 'transparent',
+  },
+  link: {
     backgroundColor: 'transparent',
   },
   disabled: {
@@ -144,29 +143,29 @@ const stylesheet = createStyleSheet((theme: Theme) => ({
   },
   focused: {
     borderWidth: 2,
-    borderColor: theme.colors.primary,
+    borderColor: theme.primary,
   },
   label: {
     fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
   },
-  primaryLabel: {
-    color: theme.colors.secondary,
+  primaryForeground: {
+    color: theme.primaryForeground,
   },
-  secondaryLabel: {
-    color: theme.colors.primary,
+  secondaryForeground: {
+    color: theme.secondaryForeground,
   },
-  destructiveLabel: {
-    color: theme.colors.secondary,
+  destructiveForeground: {
+    color: theme.destructiveForeground,
   },
   textLabel: {
-    color: theme.colors.primary,
+    color: theme.primary,
   },
   disabledLabel: {
-    color: theme.colors.onSurfaceDisabled,
+    color: theme.primary,
+    opacity: 0.5,
   },
-  hoveredLabel: {},
   pressedLabel: {},
   focusedLabel: {},
 }));

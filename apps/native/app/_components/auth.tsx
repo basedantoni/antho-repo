@@ -1,7 +1,8 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Alert, TextInput, View } from 'react-native';
+import { Alert, View } from 'react-native';
 import Button from '~/app/_components/ui/button';
+import Input from '~/app/_components/ui/input';
 import { supabase } from '~/lib/supabase';
 
 export default function Auth() {
@@ -44,7 +45,7 @@ export default function Auth() {
   return (
     <View className='w-full flex flex-col px-8 py-4 gap-4'>
       <View>
-        <TextInput
+        <Input
           onChangeText={(text) => setEmail(text)}
           value={email}
           placeholder='email@address.com'
@@ -52,7 +53,7 @@ export default function Auth() {
         />
       </View>
       <View>
-        <TextInput
+        <Input
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry={true}
@@ -68,7 +69,7 @@ export default function Auth() {
       />
       <Button
         label='Sign up'
-        mode='secondary'
+        mode='ghost'
         disabled={loading}
         onPress={() => signUpWithEmail()}
       />

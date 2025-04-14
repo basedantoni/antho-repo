@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Stack } from 'expo-router';
 import { Button, View, Text, ActivityIndicator, Pressable } from 'react-native';
 import { trpc } from '~/utils/api';
 import CreatePost from '~/app/_components/posts/create-post';
