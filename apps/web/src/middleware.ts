@@ -3,7 +3,7 @@ import { updateSession } from '@antho/auth/middleware';
 
 export default function middleware(request: NextRequest) {
   if (
-    request.nextUrl.pathname.startsWith('/api/auth/confirm') ||
+    request.nextUrl.pathname.startsWith('/api/auth') ||
     request.nextUrl.pathname.startsWith('/api/health') ||
     request.nextUrl.pathname.startsWith('/login') ||
     request.nextUrl.pathname.startsWith('/sign-up')

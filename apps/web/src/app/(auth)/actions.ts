@@ -57,3 +57,19 @@ export async function signout() {
   await supabase.auth.signOut({ scope: 'local' });
   redirect('/');
 }
+
+export async function loginWithGoogle() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${process.env.NEXT_PUBLIC_URL}/api/auth/callback`,
+    },
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  redirect(data.url);
+}
