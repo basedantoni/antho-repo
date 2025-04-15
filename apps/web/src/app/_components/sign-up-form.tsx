@@ -22,7 +22,7 @@ import {
   useForm,
 } from '@antho/ui/components/form';
 
-import { signup } from '~/app/(auth)/actions';
+import { loginWithGoogle, signup } from '~/app/(auth)/actions';
 import { signUpSchema } from '~/app/(auth)/auth-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -65,7 +65,12 @@ export function SignUpForm() {
           </CardDescription>
         </CardHeader>
         <CardContent className='grid gap-y-4'>
-          <Button size='sm' variant='outline' type='button'>
+          <Button
+            onClick={() => loginWithGoogle()}
+            size='sm'
+            variant='outline'
+            type='button'
+          >
             <Icons.google className='mr-2 size-4' />
             Sign up with Google
           </Button>
