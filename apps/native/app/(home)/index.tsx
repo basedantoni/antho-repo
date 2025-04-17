@@ -1,11 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button, View, Text, ActivityIndicator, Pressable } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { trpc } from '~/utils/api';
 import CreatePost from '~/app/_components/posts/create-post';
 import Post from '~/app/_components/posts/post';
 import MobileAuth from '~/app/_components/mobile-auth';
+import Button from '~/app/_components/ui/button';
+import { createStyleSheet, useStyles } from 'react-native-unistyles';
+import { Theme } from '~/utils/theme';
 
 export default function Home() {
+  const { styles } = useStyles(stylesheet);
+
   const { isLoading, isError, data, refetch } = useQuery(
     trpc.post.all.queryOptions()
   );
@@ -30,7 +35,7 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <View className='flex-1 items-center justify-center'>
+      <View style={styles.loadingContainer}>
         <ActivityIndicator size='large' />
       </View>
     );
@@ -38,54 +43,97 @@ export default function Home() {
 
   if (isError) {
     return (
-      <View className='flex-1 items-center justify-center'>
-        <Button title='Retry' onPress={() => refetch()} />
+      <View style={styles.loadingContainer}>
+        <Button label='Retry' mode='primary' onPress={() => refetch()} />
       </View>
     );
   }
 
   return (
-    <View className='flex flex-col p-4 gap-8'>
-      <View className='w-full flex flex-row justify-end'>
+    <View style={styles.container}>
+      <View style={styles.headerContainer}>
         <MobileAuth />
       </View>
-      <View className='w-full flex flex-col items-center gap-8'>
-        <Text className='text-4xl font-extrabold tracking-tight'>
-          Create Antho Repo
-        </Text>
-        <View className='w-full flex flex-col gap-4'>
-          <Text className='text-2xl font-bold'>Posts</Text>
+      <View style={styles.contentContainer}>
+        <Text style={styles.title}>Create Antho Repo</Text>
+        <View style={styles.postsContainer}>
+          <Text style={styles.postsTitle}>Posts</Text>
           {data?.map((post) => (
-            <View
-              key={post.publicId}
-              className='w-full flex flex-row items-start justify-between'
-            >
+            <View key={post.publicId} style={styles.postContainer}>
               <Post post={post} />
-              <View className='flex flex-row items-center gap-2'>
-                <Pressable
-                  onPress={() => deletePost({ publicId: post.publicId })}
-                >
-                  <Text className='font-bold uppercase text-primary'>
-                    Delete
-                  </Text>
-                </Pressable>
-                <Pressable
+              <View style={styles.buttonContainer}>
+                <Button
+                  label='Update'
+                  mode='outline'
                   onPress={() =>
                     updatePost({ publicId: post.publicId, title: 'Updated' })
                   }
-                >
-                  <Text className='font-bold uppercase text-primary'>
-                    Update
-                  </Text>
-                </Pressable>
+                />
+                <Button
+                  label='Delete'
+                  mode='destructive'
+                  onPress={() => deletePost({ publicId: post.publicId })}
+                />
               </View>
             </View>
           ))}
         </View>
-        <View className='w-full'>
+        <View style={{ width: '100%' }}>
           <CreatePost />
         </View>
       </View>
     </View>
   );
 }
+
+const stylesheet = createStyleSheet((theme: Theme) => ({
+  container: {
+    flexDirection: 'column',
+    padding: 16,
+    gap: 32,
+    paddingTop: 44,
+  },
+  headerContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  contentContainer: {
+    width: '100%',
+    flexDirection: 'column',
+    gap: 32,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 36,
+    lineHeight: 40,
+    fontWeight: 'bold',
+    letterSpacing: -0.5,
+  },
+  postsContainer: {
+    width: '100%',
+    flexDirection: 'column',
+    gap: 16,
+  },
+  postsTitle: {
+    fontSize: 24,
+    lineHeight: 32,
+    fontWeight: 'light',
+  },
+  postContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    gap: 8,
+    alignItems: 'center',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+}));

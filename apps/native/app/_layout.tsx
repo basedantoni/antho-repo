@@ -6,8 +6,6 @@ import { queryClient } from '~/utils/api';
 import { UnistylesRegistry } from 'react-native-unistyles';
 import { light, dark } from '~/utils/theme';
 
-import '../global.css';
-
 UnistylesRegistry.addThemes({
   light,
   dark,

@@ -123,7 +123,7 @@ const stylesheet = createStyleSheet((theme: Theme) => ({
   outline: {
     backgroundColor: theme.background,
     borderWidth: 1,
-    borderColor: theme.primary,
+    borderColor: theme.border,
   },
   ghost: {
     backgroundColor: 'transparent',
@@ -157,7 +157,7 @@ const stylesheet = createStyleSheet((theme: Theme) => ({
     color: theme.secondaryForeground,
   },
   destructiveForeground: {
-    color: theme.destructiveForeground,
+    color: theme.primaryForeground,
   },
   textLabel: {
     color: theme.primary,

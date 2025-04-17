@@ -1,8 +1,8 @@
-import { useMutation } from '@tanstack/react-query';
+import Button from '~/app/_components/ui/button';
+
 import { useRouter } from 'expo-router';
-import { Text, Button, Pressable } from 'react-native';
-import { supabase } from '~/lib/supabase';
-import { useUser } from '~/lib/supabase';
+import { useMutation } from '@tanstack/react-query';
+import { supabase, useUser } from '~/lib/supabase';
 
 export default function MobileAuth() {
   const router = useRouter();
@@ -18,12 +18,11 @@ export default function MobileAuth() {
 
   return (
     <>
-      <Pressable
-        className='border bg-transparent h-9 px-4 py-2 has-[>svg]:px-3 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium cursor-pointer disabled:pointer-events-none disabled:opacity-50'
+      <Button
+        label={user ? 'Sign Out' : 'Sign In'}
+        mode='ghost'
         onPress={() => (user ? signOut() : router.push('/login'))}
-      >
-        <Text>{user ? 'Sign Out' : 'Sign In'}</Text>
-      </Pressable>
+      />
     </>
   );
 }

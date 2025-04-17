@@ -1,5 +1,4 @@
-import { Stack } from 'expo-router/stack';
-import { Redirect } from 'expo-router';
+import { Redirect, Slot } from 'expo-router';
 import { Text } from 'react-native';
 import { useUser } from '~/lib/supabase';
 
@@ -13,5 +12,5 @@ export default function HomeLayout() {
     return <Redirect href='/login' />;
   }
 
-  return <Stack />;
+  return <Slot />;
 }

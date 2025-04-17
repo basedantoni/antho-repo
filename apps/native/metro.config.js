@@ -1,7 +1,6 @@
 // Learn more https://docs.expo.io/guides/customizing-metro
 const { getDefaultConfig } = require('expo/metro-config');
 const { FileStore } = require('metro-cache');
-const { withNativeWind } = require('nativewind/metro');
 const path = require('path');
 
 /** @type {import('expo/metro-config').MetroConfig} */
@@ -15,4 +14,4 @@ config.cacheStores = [
   }),
 ];
 
-module.exports = withNativeWind(config, { input: './global.css' });
+module.exports = config;

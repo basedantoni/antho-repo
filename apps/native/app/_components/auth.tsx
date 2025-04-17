@@ -1,11 +1,16 @@
 import { useRouter } from 'expo-router';
+import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { useState } from 'react';
 import { Alert, View } from 'react-native';
+
 import Button from '~/app/_components/ui/button';
 import Input from '~/app/_components/ui/input';
+import { Theme } from '~/utils/theme';
+
 import { supabase } from '~/lib/supabase';
 
 export default function Auth() {
+  const { styles } = useStyles(stylesheet);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -43,7 +48,7 @@ export default function Auth() {
   }
 
   return (
-    <View className='w-full flex flex-col px-8 py-4 gap-4'>
+    <View style={styles.container}>
       <View>
         <Input
           onChangeText={(text) => setEmail(text)}
@@ -76,3 +81,13 @@ export default function Auth() {
     </View>
   );
 }
+
+const stylesheet = createStyleSheet((theme: Theme) => ({
+  container: {
+    flexDirection: 'column',
+    width: '100%',
+    gap: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+}));
