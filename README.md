@@ -1,14 +1,17 @@
-# Turborepo starter
+# Antho Repo Start
 
-This Turborepo starter is maintained by the Turborepo core team.
+This is a starter for Next.js + Expo applications
 
-## Using this example
+## Current Tech Stack
 
-Run the following command:
-
-```sh
-npx create-turbo@latest
-```
+- React + Next.js
+- React Native + Expo
+- Supabase
+  - Auth + Postgres DB
+- tRPC + Tanstack Query (API + State management)
+- Drizzle + Zod (ORM)
+- Shadcn (web UI)
+- Unistyles (native UI)
 
 ## What's inside?
 
@@ -18,8 +21,12 @@ This Turborepo includes the following packages/apps:
 
 - `docs`: a [Next.js](https://nextjs.org/) app
 - `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- `native`: an [Expo](https://expo.dev/) app
+- `@antho/api`: [tRPC](https://trpc.io/) API
+- `@antho/auth`: [Supabase](https://supabase.com/docs/guides/auth) Authentication logic
+- `@antho/db`: [Drizzle](https://orm.drizzle.team/) database connector
+- `@antho/ui`: [Shadcn](https://ui.shadcn.com/) component library shared by both `web` and `docs` applications
+- `@antho/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `@repo/tsconfig`: `tsconfig.json`s used throughout the monorepo
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
@@ -32,12 +39,28 @@ This Turborepo has some additional tools already setup for you:
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
 
+## Getting Started
+
+### Install Packages
+
+```
+pnpm install
+```
+
+### Environment
+
+This project requires some environment variables to get up an running and can be found in `.env.example`
+
+```
+cp .env.example .env
+```
+
 ### Build
 
 To build all apps and packages, run the following command:
 
 ```
-cd my-turborepo
+cd antho-repo
 pnpm build
 ```
 
@@ -46,8 +69,22 @@ pnpm build
 To develop all apps and packages, run the following command:
 
 ```
-cd my-turborepo
+cd antho-repo
 pnpm dev
+```
+
+### Database Migrations
+
+To generate database migrations, run the following command:
+
+```
+pnpm db:generate
+```
+
+To run database migrations, run the following command:
+
+```
+pnpm db:migrate
 ```
 
 ### Remote Caching
@@ -60,7 +97,7 @@ Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo
 By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
 
 ```
-cd my-turborepo
+cd antho-repo
 npx turbo login
 ```
 
