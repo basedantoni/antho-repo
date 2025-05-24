@@ -39,15 +39,15 @@ This Turborepo has some additional tools already setup for you:
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
 
-## Getting Started
+# Getting Started
 
-### Install Packages
+## Install Packages
 
 ```
 pnpm install
 ```
 
-### Environment
+## Environment
 
 This project requires some environment variables to get up an running and can be found in `.env.example`
 
@@ -55,7 +55,7 @@ This project requires some environment variables to get up an running and can be
 cp .env.example .env
 ```
 
-### Build
+## Build
 
 To build all apps and packages, run the following command:
 
@@ -64,7 +64,7 @@ cd antho-repo
 pnpm build
 ```
 
-### Develop
+## Develop
 
 To develop all apps and packages, run the following command:
 
@@ -73,7 +73,116 @@ cd antho-repo
 pnpm dev
 ```
 
-### Database Migrations
+# PostgreSQL Docker Setup
+
+Set up a PostgreSQL database using Docker for local development.
+
+## Prerequisites
+
+- Docker installed and running on your machine
+
+## Quick Setup
+
+### 1. Create and Start PostgreSQL Container
+
+```bash
+docker run -d \
+  --name postgres-docker \
+  -e POSTGRES_PASSWORD=password \
+  -p 5432:5432 \
+  postgres
+```
+
+**Note:** We use port `5432` as default, make sure no other existing instances of Postgres exist on your machine
+
+### 2. Update Environment Variables
+
+Create or update your `.env` file with the database connection string:
+
+```bash
+DATABASE_URL="postgresql://postgres:password@localhost:5432/postgres"
+```
+
+### 3. Verify Connection
+
+Test the database connection:
+
+```bash
+docker exec postgres-docker psql -U postgres -d postgres -c "SELECT version();"
+```
+
+### 4. Run Migrations
+
+Now you can run your database migrations:
+
+```bash
+pnpm db:migrate
+```
+
+## Container Management
+
+### Start/Stop Container
+
+```bash
+# Start the container
+docker start postgres-docker
+
+# Stop the container
+docker stop postgres-docker
+
+# View container status
+docker ps -a
+```
+
+### View Logs
+
+```bash
+docker logs postgres-docker
+```
+
+### Connect to Database
+
+```bash
+# Connect via psql
+docker exec -it postgres-docker psql -U postgres -d postgres
+```
+
+## Connection Details
+
+- **Host:** `localhost`
+- **Port:** `5432`
+- **Database:** `postgres`
+- **Username:** `postgres`
+- **Password:** `password`
+
+## Troubleshooting
+
+**Container exits immediately?**
+
+- Ensure `POSTGRES_PASSWORD` environment variable is set
+- Check logs: `docker logs postgres-docker`
+
+**Port already in use?**
+
+- Change the host port (first number) in the `-p` flag: `-p 5434:5432`
+- Update your `DATABASE_URL` accordingly
+
+**Connection refused?**
+
+- Verify container is running: `docker ps`
+- Check if port is correctly mapped: `docker port postgres-docker`
+
+## Cleanup
+
+To remove the container and start fresh:
+
+```bash
+docker stop postgres-docker
+docker rm postgres-docker
+# Then run the docker run command again
+```
+
+## Database Schema Generation & Migrations
 
 To generate database migrations, run the following command:
 
@@ -87,7 +196,7 @@ To run database migrations, run the following command:
 pnpm db:migrate
 ```
 
-### Remote Caching
+## Remote Caching
 
 > [!TIP]
 > Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
